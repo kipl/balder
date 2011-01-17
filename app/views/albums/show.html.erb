@@ -1,0 +1,60 @@
+<h2><%= @album.title %></h2>
+
+<div id="multipleimages">
+<table>
+	<% count = 0.0 %>
+	<% for photo in @album.photos.find(:all, :order => "Id ASC") %>
+	<% count += 1%>
+  	<% if count == 1 || ( (count-1) / 4.0 == ( (count-1) / 4.0).to_i ) %><tr><% end %>
+	<td><%= link_to image_tag( photo.file.preview.url ), [@album.collections.first, @album, photo] %></td>
+  	<% if count / 4.0 == (count / 4.0).to_i %></tr><% end %>
+	<% end %>
+</table>
+</div>
+
+<p><%= @album.description %></p>
+
+<% unless @album.photo_tags.empty? %>
+<p>Tagged with: 
+<% for tag in @album.photo_tags.map{|tag|tag.title}.sort %>
+<%= link_to tag, album_tag_photos_path(@album, tag) %>
+<% end %>
+</p>
+<% end %>
+
+<% unless @album.collections.empty? %>
+<p>Part of: 
+<% for collection in @album.collections.find(:all, :order => 'title') %>
+<%= link_to collection.title, collection_path(collection) %>
+<% end %>
+</p>
+<% end %>
+
+
+<% if has_role?("admin") %>
+<p><%= @album.address %></p>
+<% end %>
+<% if has_role?("admin") %>
+<p><%= @album.note %></p>
+<% end %>
+
+
+
+<% content_for :action_links do %>
+<% if has_role?("admin") %>
+<% if params[:collection_id] %>
+<%= link_to "PDF", collection_album_path(params[:collection_id],@album, :format => 'pdf') %> |&nbsp;
+<%= link_to "Edit album", edit_collection_album_path(params[:collection_id],@album) %> |&nbsp;
+<%= link_to "Edit all photos", edit_multiple_collection_album_photos_path(params[:collection_id],@album) %> |&nbsp;
+<%= link_to "Edit untouched photos", untouched_collection_album_photos_path(params[:collection_id], @album) %> |&nbsp;
+<%= link_to "Add photos", upload_collection_album_photos_path(params[:collection_id], @album) %>
+<% else %>
+<%= link_to "PDF", album_path(@album, :format => 'pdf') %> |&nbsp;
+<%= link_to "Edit album", edit_album_path(@album) %> |&nbsp;
+<%= link_to "Edit all photos", edit_multiple_album_photos_path(@album) %> |&nbsp;
+<%= link_to "Edit untouched photos", untouched_album_photos_path(@album) %> |&nbsp;
+<%= link_to "Add photos", upload_album_photos_path(@album) %>
+<% end %>
+
+<% end %>
+<% end %>

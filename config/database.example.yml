@@ -1,0 +1,20 @@
+development:
+    adapter: postgresql
+    database: balder_development
+    username: balder
+    password: changeme
+production:
+    adapter: mysql
+    encoding: utf8
+    username: balder
+    password: changeme
+    database: balder_production
+    socket: /var/run/mysqld/mysqld.sock
+test: &TEST
+    adapter: postgresql
+    database: gallery_test
+    username: balder
+    password: changeme
+
+cucumber:
+  <<: *TEST

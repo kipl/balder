@@ -1,0 +1,22 @@
+<h2><%= h @collection.title %></h2>
+<p><%= h @collection.description %></p>
+
+<% for album in @albums %>
+<div class="row">
+  <div class="title">
+	<%= render :partial => "photos/thumb", :locals => {:photo => album.photos.first } unless album.photos.empty? %>
+	<p><%= link_to album.title, collection_album_path(@collection, album) %></p>
+  </div>
+  <div class="image">
+	<%= render :partial => "photos/thumb", :collection => album.photos.find(:all, :limit => 5, :offset => 1), :as => :photo %>
+  </div>
+</div>
+<% end %>
+
+<% content_for :action_links do %>
+<% if has_role?("admin") %>
+<%= link_to "PDF", collection_path(@collection, :format => 'pdf') %> |&nbsp;
+<%= link_to "Edit collection", edit_collection_path(@collection) %> | 
+<%= link_to "New album", new_collection_album_path(@collection) %>
+<% end %>
+<% end %>

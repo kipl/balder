@@ -1,0 +1,30 @@
+<% content_for :javascript do %>
+<%= javascript_include_tag "http://maps.google.com/maps/api/js?sensor=true" -%>
+<%= javascript_include_tag "tag/tag"  -%>
+<% end %>
+
+<div id="map_canvas"></div>
+
+<%= hidden_field_tag :all_tags, "'#{Tag.find(:all).map { |tag| tag.title }.join('\',\'')}'" %>
+<%= hidden_field_tag :collection_id, params[:collection_id] %>
+<%= form.hidden_field :id %>
+<%= form.hidden_field :latitude %>
+<%= form.hidden_field :longitude %>
+
+<%= form.label :title, :Title, {:class => 'big'} %><br />
+<%= form.text_field :title, {:class => 'big'} %><br />
+
+<%= form.label :description %><br />
+<%= form.text_area :description %><br />
+
+<%= form.label :address %><br />
+<%= form.text_area :address, { :rows => 3} %><br />
+
+<%= form.label :note %><br />
+<%= form.text_area :note %><br />
+
+<%= form.label :tags %><br />
+<%= form.text_field :tags, { :autocomplete => "off", :class => 'tag_list', :value => (@album.tags.map{|tag|tag.title}.join(" ") unless @album.tags.nil?) } %><br />
+
+<br />
+Contains: <%= @album.photos.count %> photos<br/>

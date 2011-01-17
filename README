@@ -1,0 +1,84 @@
+== Welcome to Balder photo gallery
+
+Made by Espen Antonsen.
+
+Version 1.2.0rc1 for Rails3
+
+Issues:
+- carrierwave not saving to model, only to disk (testet on ubuntu)
+- jpg files not being upload, no error written to log (testet on osx)
+
+http://balderapp.com
+
+== Features
+
+* Stores photos to disk in folders or on S3 (can run from Heroku...yay)
+* Create multiple thumbnails of custom sizes
+* Read and writes EXIF/IPTC title, description and keywords
+* Organize in albums (as events in iPhoto)
+* Combine albums in collections (as albums in iPhoto)
+* Upload multiple photos
+* Tag photos. Can also tag albums (actually all photos in album is tagged)
+* User management with roles and permissions
+* Geo-location of albums & photos with Google Maps integration.
+
+== License
+
+Free for personal use. Contact me for commercial license.
+
+== Requirements
+
+Rails 3.0
+
+Software
+- RMagicK (required for Carrierwave resizing). Can also use ImageScience
+Optional:
+	- ExifTool (required for Mini_EfixTool)
+
+Ruby Gems
+- AuthLogic
+- Mime-Types
+- Carrierwave
+Optional:
+	- AWS/S3 (if saving to Amazon s3)
+	- Mini_Exiftool (to read exif info to database. See photo.rb model)
+
+== Installation
+brew install -f imagemagick --disable-openmp                  
+
+1. Clone the project from GitHub or Gitorious:
+	GitHub: git clone git://github.com/espen/balder.git
+	Gitorious: git clone git://gitorious.org/gallery-without-a-name/gallery-without-a-name.git
+2. install required software listed above
+3. Copy settings file:
+	cp gallery/config/database.example.yml gallery/config/database.yml
+	cp gallery/config/settings.example.yml gallery/config/settings.yml
+4. Create databsae user and edit settings files.
+5. rake db:create
+6. rake db:migrate
+7. Start up the project with your preferred web-server
+
+=== Optional: add photos directly to disk
+
+The gallery has a web-based upload tool using Flash. Alternatively you can upload files directly by doing this:
+
+Put photos in containing folders(albums) in the specified gallery folder.
+Hierarchy of folders is not fully supported.
+
+This format is recommended:
+
+./ski weekend in hemsedal/snow.jpg
+./ski weekend in hemsedal/afterski.jpg
+./trip to iran/beautiful girls in tehran.jpg
+./trip to iran/mosque in yazd.jpg
+./trip to iran/powder snow in dizin.jpg
+
+Every time you manually add photos to disk you must scan by visiting /photos/scan
+
+In future releases the scan will be automated.
+
+== Copyright and license info
+
+This code is copyrighted by Espen Antonsen. The source code is available free under the GNU General Public License version 3 (GPLv3).
+
+If the GPLv3 is not suitable for you please contact me for an alternative license for a fee.

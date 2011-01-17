@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title><%= ENV['TITLE'] || "Photos" %></title>
+	<%= yield :head %>
+	<%= stylesheet_link_tag 'application' %>
+	<%= csrf_meta_tag %>
+</head>
+<body>
+<div id="container">
+
+<div id="header">
+	<div id="action_links">
+	<%= yield :action_links %>
+	<% if current_user %>
+	Logged in as <%= current_user.name %>
+	<%= link_to 'Logout', logout_path %>
+	<% end %>
+	</div>
+	<h1>
+		<%= link_to(if ENV['LOGO'] then image_tag(ENV['LOGO']) else (ENV['TITLE'] || "Photos") end, root_path) %>
+	</h1>
+	<% form_tag albums_path, { :id => :search } do -%>
+		<input type="text" name="q" class="textfield"/>
+		<input type="submit" value="Search" class="button" />
+	<% end -%>
+    <hr class="seperator" />
+	<%= breadcrumbs %>
+</div>
+
+<div id="content">
+	<p id="notice"><%= flash[:notice] %></p>
+	<%= yield %>
+</div>
+
+<div id="footer">
+  
+  <hr class="seperator" />
+  &copy; <a href="http://balderapp.com">Balder - open source photo gallery</a>.
+</div>
+</div>
+
+<%= javascript_include_tag 'jquery-1.4.2.js', 'rails', 'balder' %>
+<%= yield :javascript %>
+</body>
+</html>
