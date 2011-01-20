@@ -1,0 +1,40 @@
+<% content_for :javascript do %>
+<%= javascript_include_tag "uploadify-2.1/jquery.uploadify.v2.1.0.min.js" -%>
+<%= javascript_include_tag "uploadify-2.1/swfobject.js"  -%>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#photo_file').uploadify({
+			uploader:'<%= javascript_path "uploadify-2.1/uploadify.swf" -%>',
+			script:'<%= photos_path %>',
+			fileDataName    : 'photo[file]',
+			scriptData: {
+				'<%= get_session_key %>' : encodeURIComponent('<%= u cookies[get_session_key] %>'),
+				'authenticity_token' : encodeURIComponent('<%= u form_authenticity_token if protect_against_forgery?%>'),
+				'photo[album_id]' : "<%= @album.id %>"
+			},
+			cancelImg:'<%= javascript_path "jquery.uploadify-v1.6.2.mit/cancel.png" -%>',
+			multi:true,
+			auto:true,
+			onComplete : function (e,queueId,fileObj,res,data) {
+				if (res.substring(0, 7) === "FILEID:") {
+					var image = $('<img>').appendTo('#thumbs')
+					image.css('display','none')
+					image.attr('src', res.substring(7) )
+					image.fadeIn('slow')
+				}
+			},
+			onError : function (e,queueId,fileObj,errorObj,res) {
+			}
+		})
+})
+</script>
+<% end %>
+<form>
+<input type="file" id="photo_file">
+<br>
+<div id="thumbs"></div>
+</form>
+
+<br><%= link_to "Edit uploaded photos", untouched_album_photos_path( @album ) %>
+<br><%= link_to "Back to #{@album.title}", @album %>

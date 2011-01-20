@@ -1,0 +1,14 @@
+<% content_for :javascript do %>
+<%= javascript_include_tag "tag/tag"  -%>
+<% end %>
+<%= hidden_field_tag :all_tags, @tags %>
+<%= form.label :title %><br />
+<%= form.text_field :title %><br />
+<br />
+<%= form.label :tag_list %><br />
+<%= form.text_field :tag_list, { :autocomplete => "off", :class => 'tag_list'} %><br />
+<br />
+<%= form.label :description %><br />
+<%= form.text_area :description %><br />
+<br/>
+<p>On disk: ~/<%= @photo.path %></p>
