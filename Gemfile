@@ -8,7 +8,8 @@ gem "carrierwave", :git => 'git://github.com/jnicklas/carrierwave.git'
 # MySQL:
 gem "mysql2"
 # PostgreSQL:
-gem 'pg'
+gem 'pg'    
+gem 'sqlite3'
 
 # S3 support
 gem 'fog'
@@ -22,4 +23,5 @@ gem "mini_magick"
 #gem "image_science", :git => 'git://github.com/perezd/image_science.git'
 
 # MiniMagick
-#gem "mini_magick"
+#gem "mini_magick" 
+
